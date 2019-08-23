@@ -22,6 +22,8 @@ var util = require( 'gulp-util' );
 var plumber = require( 'gulp-plumber' );
 var pug = require( 'gulp-pug' );
 
+var c_process = require( 'child_process' );
+
 var src = './app/client',
     pug_home = './app/client',
     pug_inc = path.join(pug_home,'pug_inc'),
@@ -112,6 +114,60 @@ gulp.task('browserSyncInit', function() {
     });
 });
 
+
+function exec_command_sync ( cmd_text ) {
+    return c_process.execSync( cmd_text );
+}
+
+function check_current_branch_name ( done ) {
+    return c_process.execSync( 'git branch' ).toString()
+        // get array
+        .split( "\n" )
+        // get active branch
+        .find( x => x.includes( '*' ) ).replace( "* ", "" ).trim();
+}
+
+function checkout_pages_working_branch ( ) {
+    return c_process.execSync( `git checkout ${pages_working_branch}` );
+
+}
+
+async function git_pull () {
+    return exec_command_sync( 'git pull' );
+}
+
+async function git_checkout_branch ( branch ) {
+    return exec_command_sync( `git checkout ${branch}` );
+}
+
+async function git_merge_branch ( src_branch, dst_branch ) {
+    await git_checkout_branch( dst_branch );
+    await git_pull();
+    return exec_command_sync( `git merge ${src_branch}` );
+}
+
+async function merge_to_working_page ( done ) {
+    console.log( c_process.execSync( 'date' ).toString() );
+    // check current branch name
+    var tmp_branch = check_current_branch_name();
+    console.log( tmp_branch );
+
+    // checkout feature/pages/working branch
+    // git pull
+    // git merge current branch
+    await git_merge_branch( tmp_branch, pages_working_branch );
+
+    // git checkout current brach
+    await git_checkout_branch( tmp_branch );
+    done();
+}
+
+function helloworld (done) {
+    console.log( "helloworld" );
+    done();
+}
+
+
 // define the default task and add the watch task to it
 gulp.task( 'default', [ 'build' ] );
 
@@ -126,9 +182,5 @@ gulp.task( 'default', [ 'build' ] );
 // } );
 
 gulp.task( 'serve', ['watch', 'browserSyncInit'] );
-
-
-
-
 
 gulp.task('merge_to_develop',[])
