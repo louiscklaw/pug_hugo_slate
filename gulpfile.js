@@ -22,7 +22,7 @@ var util = require( 'gulp-util' );
 var plumber = require( 'gulp-plumber' );
 var pug = require( 'gulp-pug' );
 
-var src = './app/client/scss',
+var src = './app/client',
     pug_home = './app/client',
     pug_inc = path.join(pug_home,'pug_inc'),
     vnd = './vendor',
@@ -96,8 +96,10 @@ gulp.task( 'browserSyncReload', function () {
 })
 
 gulp.task('watch', function() {
-    runSequence('pack-css', 'pack-js');
-    gulp.watch(scssSrc + '/**/*css', ['pack-css']);
+    runSequence( 'pack-css', 'pack-js' );
+    console.log( scssSrc + '/**/*css' );
+
+    gulp.watch([scssSrc + '/**/*css', scssSrc+'/*'], ['pack-css']);
     gulp.watch(jsSrc + '/**/*.js', ['pack-js']);
     gulp.watch([pug_home] + '/**/*.pug', ['pug_compile', 'browserSyncReload']);
 });
