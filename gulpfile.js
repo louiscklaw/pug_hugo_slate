@@ -19,7 +19,7 @@ var hash = require( 'gulp-hash' );
 var webserver = require( 'gulp-webserver' );
 var del = require( 'del' );
 var util = require( 'gulp-util' );
-
+var plumber = require( 'gulp-plumber' );
 var pug = require( 'gulp-pug' );
 
 var src = './app/client/scss',
@@ -44,7 +44,8 @@ gulp.task( 'build', function ( callback ) {
 } );
 
 gulp.task( 'pack-js', function () {
-    return gulp.src( [ jsVnd + '/**/*.js', jsSrc + '/**/*.js' ] )
+    return gulp.src( [jsVnd + '/**/*.js', jsSrc + '/**/*.js'] )
+        .pipe(plumber())
         .pipe( concat( 'slate.js' ) )
         .pipe( util.env.debug ? util.noop() : uglify() )
         .pipe( gulp.dest( jsDst ) );
@@ -56,7 +57,8 @@ gulp.task( 'pack-css', function () {
             scssVnd + '/**/*.scss',
             scssSrc + '/**/*.css',
             scssSrc + '/**/*.scss'
-        ] )
+    ] )
+        .pipe(plumber())
         .pipe( sass( {
             outputStyle: 'compressed',
             errLogToConsole: true
@@ -69,6 +71,7 @@ gulp.task( 'pack-css', function () {
 gulp.task( 'pug_compile', function ( done ) {
 
     return gulp.src( [pug_home + '/**/*.pug'] )
+        .pipe(plumber())
         .pipe( pug() )
         .pipe( gulp.dest( pug_dst ) );
 })
