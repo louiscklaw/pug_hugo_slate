@@ -6,10 +6,18 @@ html
 
         //- include ./pug_inc/ga-tracking.pug
 
-    body(style='background: #657383;' data-backgrounds='bg/b1920-000.jpg,bg/b1920-001.jpg,bg/b1920-002.jpg,bg/b1920-003.jpg,bg/b1920-004.jpg,')
+    body(style='background: #657383, linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));' data-backgrounds='bg/b1920-000.jpg,bg/b1920-001.jpg,bg/b1920-002.jpg,bg/b1920-003.jpg,bg/b1920-004.jpg,')
         include ./pug_inc/nav.pug
 
         .container
             include ./pug_inc/container.pug
 
         include ./pug_inc/scripts.pug
+
+    .
+        <style>
+            body:after{
+                background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) );
+            }
+
+        </style>
