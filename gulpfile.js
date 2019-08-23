@@ -102,7 +102,7 @@ gulp.task('watch', function() {
 gulp.task('browserSyncInit', function() {
     browserSync.init({
         server: {
-            baseDir: "./"
+            baseDir: "./docs"
         }
     });
 });
