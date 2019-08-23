@@ -2,6 +2,9 @@
 /* jshint node: true */
 'use strict';
 
+const path = require( 'path' );
+var browserSync = require('browser-sync').create();
+
 // grab our packages
 var gulp = require( 'gulp' );
 var jshint = require( 'gulp-jshint' );
@@ -17,8 +20,11 @@ var webserver = require( 'gulp-webserver' );
 var del = require( 'del' );
 var util = require( 'gulp-util' );
 
+var pug = require( 'gulp-pug' );
 
 var src = './app/client/scss',
+    pug_home = './app/client',
+    pug_inc = path.join(pug_home,'pug_inc'),
     vnd = './vendor',
     docs = './docs',
     _static = './static',
@@ -26,6 +32,7 @@ var src = './app/client/scss',
     scssSrc = src + '/scss',
     scssVnd = vnd + '/scss',
     scssDst = dst + '/css',
+    pug_dst = dst,
     jsSrc = src + '/js',
     jsVnd = vnd + '/js',
     jsDst = dst + '/js',
@@ -33,7 +40,7 @@ var src = './app/client/scss',
 
 
 gulp.task( 'build', function ( callback ) {
-    runSequence( 'vendor', 'pack-css', 'pack-js' );
+    runSequence( 'vendor', 'pack-css', 'pack-js', 'pug_compile');
 } );
 
 gulp.task( 'pack-js', function () {
@@ -59,6 +66,12 @@ gulp.task( 'pack-css', function () {
         .pipe( gulp.dest( scssDst ) );
 } );
 
+gulp.task( 'pug_compile', function ( done ) {
+
+    return gulp.src( [pug_home + '/**/*.pug'] )
+        .pipe( pug() )
+        .pipe( gulp.dest( pug_dst ) );
+})
 
 gulp.task( 'vendor', function () {
     // del([scssDst + '/font-awesome.*', fontDst]);
@@ -75,15 +88,36 @@ gulp.task( 'vendor', function () {
         .pipe( gulp.dest( jsVnd ) );
 } );
 
+gulp.task( 'browserSyncReload', function () {
+    browserSync.reload();
+})
+
+gulp.task('watch', function() {
+    runSequence('pack-css', 'pack-js');
+    gulp.watch(scssSrc + '/**/*css', ['pack-css']);
+    gulp.watch(jsSrc + '/**/*.js', ['pack-js']);
+    gulp.watch([pug_home] + '/**/*.pug', ['pug_compile', 'browserSyncReload']);
+});
+
+gulp.task('browserSyncInit', function() {
+    browserSync.init({
+        server: {
+            baseDir: "./"
+        }
+    });
+});
+
 // define the default task and add the watch task to it
 gulp.task( 'default', [ 'build' ] );
 
-gulp.task( 'serve', [ 'watch' ], function () {
-    gulp.src( dst )
-        .pipe( webserver( {
-            livereload: true,
-            directoryListing: false,
-            open: true,
-            fallback: 'index.html'
-        } ) );
-} );
+// gulp.task( 'serve', [ 'watch' ], function () {
+//     gulp.src( dst )
+//         .pipe( webserver( {
+//             livereload: true,
+//             directoryListing: false,
+//             open: true,
+//             fallback: 'index.html'
+//         } ) );
+// } );
+
+gulp.task( 'serve', ['watch', 'browserSyncInit'] );
