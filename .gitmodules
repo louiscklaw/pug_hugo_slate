@@ -1,3 +1,6 @@
 [submodule "_ref/hugo-slate-demo"]
 	path = _ref/hugo-slate-demo
 	url = https://github.com/gesquive/hugo-slate-demo.git
+[submodule "_ref/slate"]
+	path = _ref/slate
+	url = https://github.com/gesquive/slate.git
