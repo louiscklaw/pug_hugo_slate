@@ -126,3 +126,9 @@ gulp.task( 'default', [ 'build' ] );
 // } );
 
 gulp.task( 'serve', ['watch', 'browserSyncInit'] );
+
+
+
+
+
+gulp.task('merge_to_develop',[])
