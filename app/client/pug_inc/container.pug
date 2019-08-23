@@ -1,10 +1,11 @@
 //- container.pug
-include tile.pug
+include mixins.pug
 
 .tile-container
-    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
-    +tile("google", "//www.google.com", "logos/bing.svg", "favorite,search")
-    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
-    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
-    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
-    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
+    +tile("google", "//www.google.com", "logos/google.svg", "group1")
+    +tile("google", "//www.google.com", "logos/bing.svg", "group2")
+    +tile("google", "//www.google.com", "logos/google.svg", "group3")
+    +tile("google", "//www.google.com", "logos/google.svg", "group4")
+    +tile("google", "//www.google.com", "logos/google.svg", "group5")
+    +tile("google", "//www.google.com", "logos/google.svg", "group6")
+    +good_tile

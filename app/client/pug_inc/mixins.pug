@@ -2,4 +2,19 @@
 
 mixin nav_item(link_href, link_text)
     li.tag
-        a(data-tooltip="all" href!= "#"+link_text )= link_text
+        a(data-tooltip="all" href!= "#"+link_href )= link_text
+
+mixin tile(link_text, link_href, img_src, groups)
+    a(class="tile tile-link" href!= link_href data-groups!= groups target="_blank")
+        .tile-box(data-title!= link_text data-url!=link_href data-img!= img_src)
+            img.logo(src!= img_src)
+        .tile-title!= link_text
+
+
+mixin good_tile
+    .
+        <a class="tile tile-link" href="https://bing.com" data-groups='search' target="_blank">
+            <div class="tile-box" data-title='bing' data-url='https://bing.com' data-bg-color='#ffb900'data-txt-color='#ffffff'data-img='logos/bing.svg'>
+                <img class="logo" src="logos/bing.svg"></img></div>
+            <div class="tile-title">bing123231</div>
+        </a>
