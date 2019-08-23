@@ -1,6 +1,7 @@
 //- tile.pug
 
-a(class="tile tile-link" href="https://google.com" data-groups='favorite,search' target="_blank")
-    .tile-box(data-title='google' data-url='https://google.com' data-img='logos/google.svg')
-        img.logo(src="logos/google.svg")
-    .tile-title google
+mixin tile(link_text, link_href, img_src, groups)
+    a(class="tile tile-link" href!=link_href data-groups!= groups target="_blank")
+        .tile-box(data-title!=link_text data-url!=link_href data-img!=img_src)
+            img.logo(src!=img_src)
+        .tile-title!= link_text

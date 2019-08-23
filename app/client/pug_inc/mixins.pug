@@ -1,0 +1,16 @@
+//- mixins.pug
+
+mixin nav_item1(link_href, link_text)
+    <li class="tag">
+        <a data-tooltip="all" href="#">
+            <i class="icon fa fa-th" aria-hidden="true"></i>
+        </a>
+    </li>
+
+
+mixin nav_item(link_href, link_text)
+    <li class="tag">
+        <a data-tooltip="all" href!= link_href>
+            = link_text
+        </a>
+    </li>

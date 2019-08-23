@@ -1,5 +1,10 @@
 //- container.pug
-
+include tile.pug
 
 .tile-container
-    include ./tile.pug
+    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
+    +tile("google", "//www.google.com", "logos/bing.svg", "favorite,search")
+    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
+    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
+    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
+    +tile("google", "//www.google.com", "logos/google.svg", "favorite,search")
